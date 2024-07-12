@@ -11,43 +11,41 @@ def scan_and_import_assets(root_folder):
     """
     Scan the root folder and import assets based on their categories.
     """
+    log(f"Scanning root folder: {root_folder}")
+    
     # Create asset tools object
     assetTools = unreal.AssetToolsHelpers.get_asset_tools()
     log("Created Asset Tools object.")
 
-    for subdir, _, _ in os.walk(root_folder):
-        if subdir == root_folder:
-            continue
-        
-        category_name = os.path.basename(subdir)
-        asset_files = {'source': [], 'textures': []}
+    for category_dir in os.listdir(root_folder):
+        category_path = os.path.join(root_folder, category_dir)
+        if os.path.isdir(category_path):
+            log(f"Processing category: {category_dir}")
+            asset_files = []
 
-        # Traverse the subdirectory structure
-        for dirpath, _, filenames in os.walk(subdir):
-            for filename in filenames:
-                file_path = os.path.join(dirpath, filename)
-                if 'source' in dirpath.lower():
-                    asset_files['source'].append(file_path)
-                elif 'textures' in dirpath.lower():
-                    asset_files['textures'].append(file_path)
-        
-        # Define a function to import assets
-        def import_assets(files, destination_path):
-            if files:
-                assetImportData = unreal.AutomatedAssetImportData()
-                assetImportData.destination_path = destination_path
-                assetImportData.filenames = files
-                assetImportData.replace_existing = True
-                assetTools.import_assets_automated(assetImportData)
-        
-        # Import source files
-        import_assets(asset_files['source'], f'/Game/ImportTest/{category_name}')
-        
-        # Import texture files
-        import_assets(asset_files['textures'], f'/Game/ImportTest/{category_name}')
+            # Traverse subdirectories for source and texture files
+            for dirpath, _, filenames in os.walk(category_path):
+                for filename in filenames:
+                    file_path = os.path.join(dirpath, filename)
+                    asset_files.append(file_path)
+            
+            log(f"Found {len(asset_files)} files in category {category_dir}")
+
+            # Define a function to import assets
+            def import_assets(files, destination_path):
+                if files:
+                    assetImportData = unreal.AutomatedAssetImportData()
+                    assetImportData.destination_path = destination_path
+                    assetImportData.filenames = files
+                    assetImportData.replace_existing = True
+                    result = assetTools.import_assets_automated(assetImportData)
+                    log(f"Imported {len(result)} assets to {destination_path}")
+
+            # Import all files under the category folder
+            import_assets(asset_files, f'/Game/ImportTest/{category_dir}/')
 
 # Define the root folder
-root_folder = r'ADD YOUR ROOT FOLDER PATH HERE'
+root_folder = r'ADD ROOT PATH HERE'
 
 # Run the function to scan and import assets
 scan_and_import_assets(root_folder)
