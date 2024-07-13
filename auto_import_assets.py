@@ -45,7 +45,7 @@ def scan_and_import_assets(root_folder):
             import_assets(asset_files, f'/Game/ImportTest/{category_dir}/')
 
 # Define the root folder
-root_folder = r'ADD ROOT PATH HERE'
+root_folder = r'ADD ROOT PATH FOLDER HERE'
 
 # Run the function to scan and import assets
 scan_and_import_assets(root_folder)
