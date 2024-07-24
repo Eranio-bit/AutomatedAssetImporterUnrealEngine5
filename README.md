@@ -13,4 +13,6 @@ Texture Parameters for the following inputs :
 "Emissive" : "Emissive",
 "AO" : "AO"
 
+Consequently the files need to have these names in their filename.
+
 **Line 127 root_folder = r'REPLACE WITH YOUR OWN PATH'**
