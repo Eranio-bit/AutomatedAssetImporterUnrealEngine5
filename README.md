@@ -2,6 +2,8 @@ This script is importing the assets located under a root folder
 
 Creates Material Instance after a Master Material  (/Game/MasterMaterial/M_MasterMaterial') 
 
+The scanning will look for "source" and "textures" folders
+
 MasterMaterial needs to have 
 Texture Parameters for the following inputs : 
 "BaseColor": "BaseColor",
@@ -11,4 +13,4 @@ Texture Parameters for the following inputs :
 "Emissive" : "Emissive",
 "AO" : "AO"
 
-root_folder = r'REPLACE WITH YOUR OWN PATH'
+**Line 127 root_folder = r'REPLACE WITH YOUR OWN PATH'**
